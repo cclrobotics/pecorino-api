@@ -1,0 +1,41 @@
+{
+  "name": "pecorino-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node dist/index.js",
+    "start-dev": "./node_modules/.bin/nodemon -e js,yaml --exec npm run babel-node",
+    "babel-node": "./node_modules/.bin/babel-node src/index.js --inspect",
+    "build": "./node_modules/.bin/babel src -d dist --copy-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joesabido/pecorino-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joesabido/pecorino-api/issues"
+  },
+  "homepage": "https://github.com/joesabido/pecorino-api#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "js-yaml": "^3.12.0",
+    "serialport": "^7.0.2",
+    "socket.io": "^2.1.1",
+    "swagger-tools": "^0.10.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/runtime": "^7.0.0",
+    "nodemon": "^1.18.7"
+  }
+}

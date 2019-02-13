@@ -1,0 +1,205 @@
+swagger: "2.0"
+
+info:
+  title: "Liquid Handling Robot"
+  description: "Pecorino API"
+  version: "1.0.0"
+
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+  - http
+
+tags:
+  - name: "Custom Commands"
+  - name: Motors
+  - name: Port
+  - name: Position
+  - name: Status
+
+paths:
+  /motors/enabled:
+    x-swagger-router-controller: MotorsController
+    put:
+      tags:
+        - Motors
+      operationId: enableMotors
+      summary: "Enables the stepper motors."
+      responses:
+        200:
+          description: "Success"
+
+    delete:
+      tags:
+        - Motors
+      operationId: disableMotors
+      summary: "Disables the stepper motors."
+      responses:
+        200:
+          description: "Success"
+    
+  /port:
+    x-swagger-router-controller: PortController
+    get:
+      tags:
+        - Port
+      operationId: getPort
+      summary: "Returns the currently used port."
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Port"
+
+    put:
+      tags:
+        - Port
+      operationId: setPort
+      summary: "Opens the provided port and opens a new connection."
+      parameters:
+        - in: body
+          name: port
+          schema:
+            $ref: "#/definitions/Port"
+
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Port"
+  /port/cycle:
+    x-swagger-router-controller: PortController
+    post:
+      tags:
+        - Port
+      operationId: cyclePort
+      summary: "Releases and re-grabs the port fs handle."
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Port"
+  
+  /position:
+    x-swagger-router-controller: PositionController
+    get:
+      tags:
+        - Position
+      operationId: getPosition
+      summary: "Returns the current position of all axis."
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Position"
+
+    put:
+      tags:
+        - Position
+      operationId: moveToPosition
+      summary: "Moves to the specified location."
+      parameters:
+        - in: body
+          name: position
+          schema:
+            $ref: "#/definitions/Position"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Position"
+       
+  /position/home:
+    x-swagger-router-controller: PositionController
+    get:
+      tags:
+        - Position
+      operationId: getHomeStatus
+      summary: "Returns the Home status for all axis."
+      responses:
+        200:
+          description: "Success"
+    post:
+      tags:
+        - Position
+      operationId: setHome
+      summary: "Set current position as Home."
+      responses:
+        200:
+          description: "Success"
+    put:
+      tags:
+        - Position
+      operationId: goHome
+      summary: "Move to Home."
+      responses:
+        200:
+          description: "Success"
+
+  /position/halt:
+    x-swagger-router-controller: PositionController
+    put:
+      tags:
+        - Position
+      operationId: halt
+      summary: "Send HALT command (M119)."
+      responses:
+        200:
+          description: "Success"
+
+  /status/pins:
+    x-swagger-router-controller: PinsController
+    get:
+      tags:
+        - Status
+      operationId: getPinsStatus
+      responses:
+        200:
+          description: "Success"
+  
+  /commands:
+    x-swagger-router-controller: CommandsController
+    post:
+      tags:
+        - "Custom Commands"
+      parameters:
+        - in: body
+          name: commandData
+          schema:
+            type: object
+            required:
+              - command
+            properties:
+              command:
+                type: string
+
+      operationId: sendCustomCommand
+      responses:
+        200:
+          description: "Success"
+
+definitions:
+  Position:
+    type: object
+    properties:
+      x:
+        type: number
+        format: float
+      y:
+        type: number
+        format: float
+      z:
+        type: number
+        format: float
+      speed:
+        type: number
+        format: integer
+
+  Port:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+    
