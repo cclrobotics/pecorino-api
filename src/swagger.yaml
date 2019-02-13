@@ -13,6 +13,7 @@ schemes:
 tags:
   - name: "Custom Commands"
   - name: Motors
+  - name: Drive
   - name: Port
   - name: Position
   - name: Status
@@ -67,6 +68,17 @@ paths:
           description: "Success"
           schema:
             $ref: "#/definitions/Port"
+
+  /motors/startup:
+    x-swagger-router-controller: MotorsController
+    get:
+      tags:
+        - Motors
+      operationId: startup
+      responses:
+        200:
+          description: "Success"
+
   /port/cycle:
     x-swagger-router-controller: PortController
     post:
@@ -153,6 +165,47 @@ paths:
       tags:
         - Status
       operationId: getPinsStatus
+      responses:
+        200:
+          description: "Success"
+
+
+  /drive/left:
+    x-swagger-router-controller: DriveController
+    get:
+      tags:
+        - Drive
+      operationId: moveLeft
+      responses:
+        200:
+          description: "Success"
+
+  /drive/right:
+    x-swagger-router-controller: DriveController
+    get:
+      tags:
+        - Drive
+      operationId: moveRight
+      responses:
+        200:
+          description: "Success"
+
+  /drive/forward:
+    x-swagger-router-controller: DriveController
+    get:
+      tags:
+        - Drive
+      operationId: moveForward
+      responses:
+        200:
+          description: "Success"
+
+  /drive/backward:
+    x-swagger-router-controller: DriveController
+    get:
+      tags:
+        - Drive
+      operationId: moveBackward
       responses:
         200:
           description: "Success"
